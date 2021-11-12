@@ -39,15 +39,16 @@ const Search = () => {
  const fetchList = async () => {
   const url = `https://api.coingecko.com/api/v3/coins/list`;
 
-  if (coinList.length > 1 || (localStorage.getItem("searchData") !== null && localStorage.getItem("searchData") > 0))
+  if (coinList.length > 1 || (localStorage.getItem("searchData") !== null && localStorage.getItem("searchData") > 0)) {
+   setCoinList(JSON.parse(localStorage.get("searchData")));
    return;
+  }
 
   try {
    const res = await fetch(url);
    const json = await res.json();
-   console.log(json);
    setCoinList(json);
-   localStorage.setItem("searchData", json);
+   localStorage.setItem("searchData", JSON.stringify(json));
   } catch (error) {
    console.error("Error fetching search results");
    console.error(error);

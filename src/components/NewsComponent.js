@@ -29,14 +29,6 @@ const NewsComponent = ({ currency }) => {
     }
    }
    const url = ``;
-   //  const apiKey = "";
-   //  const url = `https://newsapi.org/v2/everything?q=${currency} crypto&from=${dateFormate}&to=${currRangeDateUNIX}&sortBy=popularity&apiKey=${apiKey}`;
-
-   // const currRangeDateUNIX = (new Date().getTime() / 1000).toFixed(0);
-   //  // 604800 = 7 days
-   //  const prevRangeUNIX = currRangeDateUNIX - 604800;
-   //  const date = new Date(prevRangeUNIX * 1000);
-   //  const dateFormate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
    // fetch new data if no news is saved in cookies
    try {

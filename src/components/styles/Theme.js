@@ -5,7 +5,7 @@ export const lightTheme = {
  secondaryColorHover: "#e0e0e0",
  textColor: "#515151",
  linkColor: "#5673FF",
- footerColor: "#F0F0F0",
+ footerColor: "#FFFFFF",
  disclaimerColor: "#EA8E5B",
  green: "#10CE3A",
  red: "#FE2929",

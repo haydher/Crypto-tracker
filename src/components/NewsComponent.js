@@ -3,16 +3,16 @@ import { TrendingCoinsStyle } from "./styles/TrendingCoins.style";
 import { Title } from "./styles/Title.style";
 
 import { NewsContainer, ViewMore } from "./styles/NewsContainer.style";
-const NewsComponent = ({ currency, cookie }) => {
+const NewsComponent = ({ currency }) => {
  const [newsCount, setNewsCount] = useState(4);
 
  // fetch news articles
  const [newsRes, setNewsRes] = useState({});
  useEffect(() => {
   const fetchNews = async () => {
+   // if news is saved in cookies then use that instead
    if (
-    cookie &&
-    localStorage.getItem("news") !== null &&
+    localStorage.getItem(currency) !== null &&
     localStorage.getItem("expirationDate") !== null &&
     localStorage.getItem("expirationDate").length > 0
    ) {
@@ -21,15 +21,15 @@ const NewsComponent = ({ currency, cookie }) => {
     const timeNow = parseInt((new Date().getTime() / 1000).toFixed(0));
 
     const timeDifference = timeNow - expirationDate;
-    const eightHours = 21600;
-    // more than 8 hours
-    if (timeDifference < eightHours) {
-     setNewsRes(JSON.parse(localStorage.getItem("news")));
+    const oneDay = 86400;
+    // more than a day
+    if (timeDifference < oneDay) {
+     setNewsRes(JSON.parse(localStorage.getItem(currency)));
      return;
     }
    }
    // const url = `/api/news?q=${currency}`;
-   const apiKey = "";
+   const apiKey = "1da1c1c8637945f4b5772f9cc1b650cc";
    const currRangeDateUNIX = (new Date().getTime() / 1000).toFixed(0);
    // 604800 = 7 days
    const prevRangeUNIX = currRangeDateUNIX - 604800;
@@ -38,34 +38,36 @@ const NewsComponent = ({ currency, cookie }) => {
 
    const url = `https://newsapi.org/v2/everything?q=${currency} crypto&from=${dateFormate}&to=${currRangeDateUNIX}&sortBy=popularity&apiKey=${apiKey}`;
 
+   // fetch new data if no news is saved in cookies
    try {
     const res = await fetch(url);
     const json = await res.json();
-    if (json.status !== "ok" && localStorage.getItem("news") !== null && localStorage.getItem("news").length > 0) {
-     setNewsRes(JSON.parse(localStorage.getItem("news")));
+    // if error fetching news, just use cookies if available even if expired
+    if (json.status !== "ok" && localStorage.getItem(currency) !== null && localStorage.getItem(currency).length > 0) {
+     setNewsRes(JSON.parse(localStorage.getItem(currency)));
      return;
     }
     setNewsRes(json);
 
     // store news as cookie to avoid extra fetch
-    if (cookie) {
+    if (currency) {
      const timeNow = new Date();
      localStorage.setItem("expirationDate", timeNow);
-     localStorage.setItem("news", JSON.stringify(json));
+     localStorage.setItem(currency, JSON.stringify(json));
     }
    } catch (error) {
     console.error("error fetching NEWS:");
     console.error(error);
 
-    // if error fetchig new news, check if news already saved as cookie,
+    // if error fetching new news, check if news already saved as cookie,
     // if so then use the old news to fill the place
-    if (localStorage.getItem("news") !== null && localStorage.getItem("news").length > 0)
-     setNewsRes(JSON.parse(localStorage.getItem("news")));
+    if (localStorage.getItem(currency) !== null && localStorage.getItem(currency).length > 0)
+     setNewsRes(JSON.parse(localStorage.getItem(currency)));
    }
   };
 
   fetchNews();
- }, [currency, cookie]);
+ }, [currency]);
 
  const getMonth = (month) => {
   const monthNames = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];

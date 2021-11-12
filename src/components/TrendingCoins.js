@@ -15,7 +15,7 @@ const TrendingCoins = () => {
     .then((res) => res.json())
     .then((data) => {
      // dont fetch coins if the data is already fetched
-     if (data.coins.length <= trendingCoinInfo.length) return;
+     //  if (data.coins.length <= trendingCoinInfo.length) return;
 
      data.coins.forEach((coin) => {
       const coinURL = `https://api.coingecko.com/api/v3/coins/${coin.item.id}?tickers=true&market_data=true&community_data=true&developer_data=true&sparkline=true`;

@@ -1,7 +1,9 @@
 import ChartComponent from "../ChartComponent";
 import { PStyle } from "../styles/CryptoData.style";
 // redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { changeStaredCoin } from "../../redux/trackStaredCoins.redux";
+import { Link } from "react-router-dom";
 
 const currencies = [
  { symbol: "BTC", name: "Bitcoin", unit: "BTC", type: "crypto" },
@@ -67,12 +69,19 @@ const currencies = [
  { symbol: "SATS", name: "Satoshi", unit: "sats", type: "crypto" },
 ];
 
-const CryptoDataComp = ({ data }) => {
+const CryptoDataComp = ({ data, watchList }) => {
+ // coins in watch list
+ const { staredCoinData } = useSelector((state) => state.trackStarCoin);
+ // theme to change icons
+ const { currTheme } = useSelector((state) => state.changeTheme);
  // get the selected currency type
  const { currency } = useSelector((state) => state.changeCurrency);
+ const dispatch = useDispatch();
 
  // get the percentage change between 7 days
  const getSevenDayChange = () => {
+  if (watchList !== undefined) return Math.round(data.market_data.price_change_percentage_7d * 100) / 100;
+
   const firstValue = data.sparkline_in_7d.price[0];
   const lastValue = data.sparkline_in_7d.price.at(-1);
 
@@ -83,9 +92,7 @@ const CryptoDataComp = ({ data }) => {
  };
 
  // formate the price, put comma between numbers
- const formatNums = (x) => {
-  return x >= 1 ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : x;
- };
+ const formatNums = (x) => (x >= 1 ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : x);
 
  // update the currency sign for the price
  const selectedCurrency = currencies.filter((currencyData) => currencyData.symbol === currency);
@@ -93,21 +100,76 @@ const CryptoDataComp = ({ data }) => {
  return (
   <>
    <PStyle gridArea="1 / 1 / 2 / 3">
-    <img src={data.image} alt="coin thumbnail" />
-    {data.name} {data.symbol.toUpperCase()}
+    <img
+     className="star"
+     src={
+      staredCoinData.length > 0 && staredCoinData.includes(data.id)
+       ? currTheme === "light"
+         ? "./imgs/starFill.svg"
+         : "./imgs/starFillDark.svg"
+       : currTheme === "light"
+       ? "./imgs/star.svg"
+       : "./imgs/starDark.svg"
+     }
+     alt="star coin"
+     onClick={() => dispatch(changeStaredCoin(data.id))}
+    />
+    <Link
+     to={{
+      pathname: "/currency",
+      search: `?coinName=${data.id}`,
+     }}
+    >
+     <img src={watchList !== undefined ? data.image.large : data.image} alt="coin thumbnail" />
+     {data.name} {data.symbol.toUpperCase()}
+    </Link>
    </PStyle>
    <PStyle gridArea="1 / 3 / 2 / 4">
-    {selectedCurrency[0].unit}
-    {formatNums(data.current_price)}
+    <Link
+     to={{
+      pathname: "/currency",
+      search: `?coinName=${data.id}`,
+     }}
+    >
+     {selectedCurrency[0].unit}
+     {watchList !== undefined ? formatNums(data.market_data.current_price.usd) : formatNums(data.current_price)}
+    </Link>
    </PStyle>
    <PStyle gridArea="1 / 4 / 2 / 5" color={getSevenDayChange() < 0 ? "#FE2929" : "#10CE3A"}>
-    {getSevenDayChange()}%
+    <Link
+     to={{
+      pathname: "/currency",
+      search: `?coinName=${data.id}`,
+     }}
+    >
+     {getSevenDayChange()}%
+    </Link>
    </PStyle>
    <PStyle gridArea="1 / 5 / 2 / 6" color={data.price_change_percentage_24h < 0 ? "#FE2929" : "#10CE3A"}>
-    {Math.round(data.price_change_percentage_24h * 100) / 100}%
+    <Link
+     to={{
+      pathname: "/currency",
+      search: `?coinName=${data.id}`,
+     }}
+    >
+     {watchList !== undefined
+      ? Math.round(data.market_data.market_cap_change_percentage_24h * 100) / 100
+      : Math.round(data.price_change_percentage_24h * 100) / 100}
+     %
+    </Link>
    </PStyle>
    <p style={{ gridArea: "1 / 6 / 2 / 8" }}>
-    <ChartComponent color={getSevenDayChange() < 0 ? "#FE2929" : "#10CE3A"} priceData={data.sparkline_in_7d.price} />
+    <Link
+     to={{
+      pathname: "/currency",
+      search: `?coinName=${data.id}`,
+     }}
+    >
+     <ChartComponent
+      color={getSevenDayChange() < 0 ? "#FE2929" : "#10CE3A"}
+      priceData={watchList !== undefined ? data.market_data.sparkline_7d.price : data.sparkline_in_7d.price}
+     />
+    </Link>
    </p>
   </>
  );

@@ -6,15 +6,16 @@ import NavBar from "./components/navBar/NavBar";
 import MainContainerParent from "./components/MainContainerParent";
 import { MainContainerParentStyle } from "./components/styles/MainContainerParent.style";
 import MarketValue from "./components/MarketValue";
+import { useSelector } from "react-redux";
 
 import CurrencyContainer from "./components/currency/CurrencyContainer";
+import Footer from "./components/Footer";
 
 const App = () => {
- // const [theme, setTheme] = useState("light");
- const theme = "light";
+ const { currTheme } = useSelector((state) => state.changeTheme);
 
  return (
-  <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+  <ThemeProvider theme={currTheme === "light" ? lightTheme : darkTheme}>
    <GlobalComponents />
    <div className="App">
     <NavBar />
@@ -40,6 +41,7 @@ const App = () => {
       }
      />
     </Routes>
+    <Footer />
    </div>
   </ThemeProvider>
  );

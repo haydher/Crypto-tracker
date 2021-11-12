@@ -11,9 +11,18 @@ export const PStyle = styled.p`
  letter-spacing: 1px;
  font-size: 15px;
 
+ & a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+ }
+
+ & .star {
+  height: 16px;
+ }
  & img {
   height: 22px;
   border-radius: 100%;
-  margin-right: 10px;
+  margin: 0 10px;
  }
 `;

@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const SearchContainer = styled.div`
  display: flex;
+ position: relative;
 
  & input {
   /* background-color: ${({ theme }) => theme.secondaryColor}; */
@@ -14,6 +15,11 @@ export const SearchContainer = styled.div`
   border: none;
   font-size: 16px;
   transition: background-color 0.2s ease;
+  color: ${({ theme }) => theme.textColor};
+
+  &::placeholder {
+   color: ${({ theme }) => theme.textColor};
+  }
   &:focus {
    outline: none;
   }
@@ -37,5 +43,63 @@ export const SearchContainer = styled.div`
    width: 40%;
    margin: auto;
   }
+ }
+
+ & .subMenu {
+  position: absolute;
+  z-index: 10;
+  top: 60px;
+  right: 0;
+  background-color: ${({ theme }) => theme.background};
+  max-height: 450px;
+  width: 400px;
+  border-radius: 8px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  overflow-y: scroll;
+
+  & .closeMenu {
+   background-color: ${({ theme }) => theme.secondaryColorHover};
+   position: sticky;
+   top: 8px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-left: 90%;
+   width: 35px;
+   height: 35px;
+   border-radius: 10px;
+   font-size: 16px;
+   font-weight: 500;
+   color: ${({ theme }) => theme.textColor};
+  }
+ }
+
+ & .subMenu p {
+  margin: 4px 0;
+  padding: 15px 30px;
+  color: ${({ theme }) => theme.textColor};
+  border-left: 5px solid transparent;
+  transition: border-left 0.1s ease, background-color 0.1s ease;
+  user-select: none;
+ }
+ & .subMenu p:hover {
+  background-color: #8a9eff;
+  border-left: 5px solid ${({ theme }) => theme.primaryColor};
+  color: ${({ theme }) => theme.background};
+  transition: border-left 0.3s ease, background-color 0.3s ease;
+ }
+
+ & .subMenu::-webkit-scrollbar {
+  width: 10px;
+ }
+
+ & .subMenu::-webkit-scrollbar-thumb {
+  background: #8a9eff;
+  border-radius: 100px;
+ }
+ /* Handle */
+ & .subMenu:hover::-webkit-scrollbar-thumb {
+  background: ${({ theme }) => theme.primaryColor};
+  border-radius: 100px;
  }
 `;

@@ -1,5 +1,4 @@
 import { defaults, Line } from "react-chartjs-2";
-
 // hide the legends // the number and name on the top of the graph
 defaults.plugins.legend.display = false;
 // hide the hover effect
@@ -9,8 +8,6 @@ defaults.elements.bar.borderWidth = 1;
 //
 //
 const CoinChart = ({ graph }) => {
- // console.log("graph", graph);
-
  const formateDate = (UNIXTime) => {
   const date = new Date(UNIXTime);
   const FullYear = date.getFullYear();

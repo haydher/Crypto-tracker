@@ -2,7 +2,11 @@ import styled from "styled-components";
 
 export const NavParentContainer = styled.div`
  background: ${({ theme }) => theme.backgroundColor};
- background: linear-gradient(328deg, rgba(137, 151, 219, 1) 0%, rgba(86, 115, 255, 1) 56%);
+ background: linear-gradient(
+  328deg,
+  ${({ theme }) => theme.primaryColorHover} 0%,
+  ${({ theme }) => theme.primaryColor} 56%
+ );
 
  & .navChildren {
   display: flex;

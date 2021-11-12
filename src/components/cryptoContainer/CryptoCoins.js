@@ -4,9 +4,8 @@ import Paginate from "./Paginate";
 import { CryptoGridStyle } from "../styles/CryptoGridStyle.style";
 import CryptoDataComp from "./CryptoDataComp";
 import { changeCoinId } from "../../redux/changeCoinId.redux";
-import { Link } from "react-router-dom";
 
-const CryptoCoins = () => {
+const CryptoCoins = ({ watchList }) => {
  // redux toolkit
  const dispatch = useDispatch();
 
@@ -18,24 +17,42 @@ const CryptoCoins = () => {
 
  // store the response data from `fetchCoins` - store the coins shown on the page
  const [coins, setCoins] = useState([]);
+
  //get updated price every 10 seconds
  useEffect(() => {
   const fetchCoins = async () => {
-   const itemsPerPage = "20";
-   const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${itemsPerPage}&page=${pageNumber}&sparkline=true&price_change_percentage=1h%2C24h%2C7d%2C14d%2C30d`;
-   try {
-    const response = await fetch(url);
-    const json = await response.json();
-    setCoins(json);
-   } catch (error) {
-    console.log("error", error);
+   //  get the data if its for watch list
+   if (watchList !== undefined) {
+    try {
+     const json = await Promise.all(
+      watchList.map((coin) =>
+       fetch(
+        `https://api.coingecko.com/api/v3/coins/${coin}?tickers=true&market_data=true&community_data=true&developer_data=true&sparkline=true`
+       ).then((res) => res.json())
+      )
+     );
+     setCoins(json);
+    } catch (err) {
+     console.error("ERROR fetching the watch list data", err);
+    }
+   }
+   //  get data for regular chart
+   else {
+    const itemsPerPage = "20";
+    const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${itemsPerPage}&page=${pageNumber}&sparkline=true&price_change_percentage=1h%2C24h%2C7d%2C14d%2C30d`;
+    fetch(url)
+     .then((res) => res.json())
+     .then((data) => {
+      setCoins(data);
+     })
+     .catch((err) => console.error("ERROR fetching the coin data", err));
    }
   };
   fetchCoins();
   const interval = setInterval(() => fetchCoins(), 10000);
   return () => clearInterval(interval);
   // update each time page or currency changes
- }, [pageNumber, currency]);
+ }, [pageNumber, currency, watchList]);
 
  // update page number state
  const handlePageClick = (data) => setPageNumber(data.selected + 1);
@@ -49,21 +66,13 @@ const CryptoCoins = () => {
    {coins.length > 0
     ? coins.map((coin, index) => {
        return (
-        <Link
-         key={index}
-         to={{
-          pathname: "/currency",
-          search: `?coinName=${coin.id}`,
-         }}
-        >
-         <CryptoGridStyle onClick={() => dispatch(changeCoinId(coin.id))} style={style}>
-          <CryptoDataComp data={coin} />
-         </CryptoGridStyle>
-        </Link>
+        <CryptoGridStyle key={index} onClick={() => dispatch(changeCoinId(coin.id))} style={style}>
+         <CryptoDataComp data={coin} watchList={watchList} />
+        </CryptoGridStyle>
        );
       })
     : ""}
-   <Paginate onPageClick={handlePageClick} />
+   {watchList === undefined && <Paginate onPageClick={handlePageClick} />}
   </>
  );
 };

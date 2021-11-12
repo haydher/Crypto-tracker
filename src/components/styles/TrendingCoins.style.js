@@ -14,6 +14,10 @@ export const TrendingCoinsStyle = styled.div`
    padding: 6px 0;
   }
 
+  & .coinName {
+   width: 70%;
+  }
+
   & img:first-child {
    height: 18px;
    border-radius: 100%;
@@ -39,7 +43,9 @@ export const TrendingCoinsStyle = styled.div`
 `;
 export const CoinPercentage = styled.div`
  display: flex;
+ justify-content: flex-end;
  color: ${({ theme, rate }) => (rate === "positive" ? theme.green : theme.red)};
+ width: 30%;
 
  & img {
   margin-left: 6px;

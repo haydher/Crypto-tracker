@@ -70,7 +70,7 @@ const NewsComponent = ({ currency }) => {
 
  return (
   <TrendingCoinsStyle>
-   <Title>News</Title>
+   <Title>News About Crypto</Title>
    {newsRes !== undefined && newsRes !== null && newsRes.status === "ok" && newsRes.articles.length > 0 ? (
     <>
      {newsRes.articles.slice(0, newsCount).map((news, index) => {

@@ -5,13 +5,13 @@ const Paginate = ({ onPageClick }) => {
  return (
   <PaginateStyle>
    <ReactPaginate
-    breakLabel="..."
-    nextLabel="Next >"
-    previousLabel="< Previous"
+    breakLabel={window.innerWidth > 600 ? "..." : "."}
+    nextLabel={window.innerWidth > 600 ? "Next >" : ">>"}
+    previousLabel={window.innerWidth > 600 ? "< Previous" : "<<"}
     onPageChange={onPageClick}
     pageCount={250}
-    pageRangeDisplayed={3}
-    marginPagesDisplayed={2}
+    pageRangeDisplayed={window.innerWidth > 600 ? 3 : 2}
+    marginPagesDisplayed={window.innerWidth > 600 ? 2 : 1}
     containerClassName={"pagination"}
     pageClassName={"page-item"}
     pageLinkClassName={"page-link"}

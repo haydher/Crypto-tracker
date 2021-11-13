@@ -25,7 +25,7 @@ const MarketValue = () => {
   <MarketValueContainer rate={market > 0 && "positive"}>
    <h1>Market Value</h1>
    <p>
-    The global market in the last 24 hours is up by
+    The global market in the last 24 hours is {market > 0 ? "up" : "down"} up by
     <img src={market > 0 ? "./imgs/positive.svg" : "./imgs/negative.svg"} alt="icon" />
     <span>{Math.round(market * 100) / 100}%</span>
    </p>

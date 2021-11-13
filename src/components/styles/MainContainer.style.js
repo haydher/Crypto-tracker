@@ -30,4 +30,28 @@ export const MainContainer = styled.div`
    box-shadow: -5px 0px 35px 2px rgba(82, 82, 82, 0.05);
   }
  }
+
+ @media (max-width: 600px) {
+  display: block;
+  padding: 0;
+  padding-bottom: 48px;
+  .watchList,
+  .currencies {
+   margin: 48px 12px;
+  }
+  & .dontFlexBox {
+   margin-left: 0;
+   & .trending,
+   & .news {
+    margin: 48px 12px;
+    width: auto;
+   }
+   .news {
+    margin-bottom: 0;
+   }
+  }
+  .cryptoContainer {
+   width: 100%;
+  }
+ }
 `;

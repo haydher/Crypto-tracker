@@ -25,4 +25,19 @@ export const PStyle = styled.p`
   border-radius: 100%;
   margin: 0 10px;
  }
+
+ @media (max-width: 600px) {
+  margin-right: 0;
+  letter-spacing: 0;
+  font-size: 14px;
+
+  .star {
+   height: 14px;
+  }
+  img {
+   height: 15px;
+   margin: 0;
+   margin-right: 8px;
+  }
+ }
 `;

@@ -8,9 +8,10 @@ export const NavParentContainer = styled.div`
   ${({ theme }) => theme.primaryColor} 56%
  );
 
- & .navChildren {
+ .navChildren {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: auto;
   max-width: 1440px;
   padding: 25px 0;

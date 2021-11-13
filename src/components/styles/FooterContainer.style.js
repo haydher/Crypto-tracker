@@ -42,4 +42,16 @@ export const FooterContainer = styled.div`
    text-decoration: underline;
   }
  }
+
+ @media (max-width: 600px) {
+  .footerContent {
+   margin: 0 12px;
+  }
+  p {
+   padding-top: 10px;
+   font-size: 12px;
+   text-align: justify;
+   text-align-last: left;
+  }
+ }
 `;

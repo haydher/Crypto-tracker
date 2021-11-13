@@ -38,7 +38,7 @@ const CryptoCoins = ({ watchList }) => {
    }
    //  get data for regular chart
    else {
-    const itemsPerPage = "20";
+    const itemsPerPage = window.innerWidth > 600 ? "20" : "10";
     const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${itemsPerPage}&page=${pageNumber}&sparkline=true&price_change_percentage=1h%2C24h%2C7d%2C14d%2C30d`;
     fetch(url)
      .then((res) => res.json())

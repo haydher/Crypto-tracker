@@ -21,4 +21,20 @@ export const MarketValueContainer = styled.div`
  & span {
   color: ${({ theme, rate }) => (rate === "positive" ? theme.green : theme.red)};
  }
+
+ @media (max-width: 600px) {
+  margin: 0 12px;
+  h1 {
+   font-size: 28px;
+  }
+  p {
+   margin-top: 24px;
+   font-size: 16px;
+   line-height: 1.8rem;
+   & img {
+    margin: 0 5px 0 12px;
+    height: 12px;
+   }
+  }
+ }
 `;

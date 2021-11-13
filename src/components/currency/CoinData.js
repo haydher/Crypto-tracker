@@ -6,6 +6,7 @@ import Price from "./Price";
 import { About } from "../styles/About.style";
 // redux
 import { useSelector } from "react-redux";
+import { ViewMore } from "../styles/NewsContainer.style";
 
 const useQuery = () => {
  const { search } = useLocation();
@@ -69,11 +70,19 @@ const CoinData = () => {
   return () => clearInterval(interval);
  }, [time, coinName]);
 
+ const mobile = 600;
+ const [aboutText, setAboutText] = useState("aboutText");
+ const toggleReadMore = () => (aboutText === "aboutText" ? setAboutText("") : setAboutText("aboutText"));
+
  return (
   <>
-   {coinData == null ? "rendering" : <Header coin={coinData} />}
+   {coinData == null ? "rendering" : <Header coin={coinData} phoneToggle={false} />}
 
    <div style={{ height: "500px", margin: "36px 0" }}>{<CoinChart graph={graphData && graphData} />}</div>
+
+   {/* show the graph dates at the bottom of the graph */}
+   {window.innerWidth <= mobile && (coinData == null ? "rendering" : <Header coin={coinData} phoneToggle={true} />)}
+
    {coinData == null ? "rendering" : <Price coin={coinData} />}
 
    {coinData == null ? (
@@ -81,7 +90,19 @@ const CoinData = () => {
    ) : (
     <About>
      {coinData.description.en.length > 0 && <h1>About {coinData.name}</h1>}
-     {coinData.description.en.length > 0 && <p>{coinData.description.en.replaceAll(/<[^>]+>/g, "")}</p>}
+     {coinData.description.en.length > 0 && (
+      <div className={window.innerWidth <= mobile && aboutText}>
+       {coinData.description.en.length > 0 && <p>{coinData.description.en.replaceAll(/<[^>]+>/g, "")}</p>}
+       <div className="overFlow"></div>
+      </div>
+     )}
+
+     {coinData.description.en.length > 0 && window.innerWidth <= mobile && aboutText === "aboutText" && (
+      <ViewMore onClick={() => toggleReadMore()}>
+       <span>Read More</span>
+       <img src="../imgs/viewMore.svg" alt="icon" />
+      </ViewMore>
+     )}
     </About>
    )}
   </>

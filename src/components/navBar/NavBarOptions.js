@@ -12,7 +12,7 @@ const NavBarOptions = () => {
 
  return (
   <NavContainer>
-   <Container onClick={() => dispatch(changeThemeState())}>
+   <Container className="container" onClick={() => dispatch(changeThemeState())}>
     <Icon img={currTheme === "light" ? "moon" : "sun"} />
    </Container>
 

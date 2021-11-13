@@ -104,6 +104,10 @@ const CoinChart = ({ graph }) => {
     // hides the lines just show the graph
     display: false,
    },
+   // yAxes: {
+   //  // hides the lines just show the graph
+   //  display: window.innerWidth <= 500 ? false : true,
+   // },
   },
  };
  return <Line data={data} options={options} />;

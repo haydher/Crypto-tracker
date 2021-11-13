@@ -34,7 +34,7 @@ export const SearchContainer = styled.div`
   display: flex;
   justify-content: center;
   align-content: center;
-  height: 100%;
+  height: 50px;
   width: 50px;
   cursor: pointer;
 
@@ -101,5 +101,42 @@ export const SearchContainer = styled.div`
  & .subMenu:hover::-webkit-scrollbar-thumb {
   background: ${({ theme }) => theme.primaryColor};
   border-radius: 100px;
+ }
+
+ @media (max-width: 600px) {
+  display: flex;
+  align-items: center;
+
+  & input {
+   width: 150px;
+   padding: 12px 16px;
+   font-size: 14px;
+  }
+
+  & .btnContainer {
+   padding: 0;
+   height: auto;
+   width: 35px;
+   & img {
+    height: 16px;
+   }
+  }
+
+  & .subMenu {
+   max-height: 350px;
+   width: 300px;
+
+   & .closeMenu {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+   }
+  }
+
+  & .subMenu p {
+   margin: 4px 0;
+   padding: 8px 20px;
+   font-size: 14px;
+  }
  }
 `;

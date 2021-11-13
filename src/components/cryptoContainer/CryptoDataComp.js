@@ -83,7 +83,7 @@ const CryptoDataComp = ({ data, watchList }) => {
   if (watchList !== undefined) return Math.round(data.market_data.price_change_percentage_7d * 100) / 100;
 
   const firstValue = data.sparkline_in_7d.price[0];
-  const lastValue = data.sparkline_in_7d.price.at(-1);
+  const lastValue = data.sparkline_in_7d.price[data.sparkline_in_7d.price.length - 1];
 
   let change = lastValue - firstValue;
   change = (change / firstValue) * 100;
@@ -97,9 +97,13 @@ const CryptoDataComp = ({ data, watchList }) => {
  // update the currency sign for the price
  const selectedCurrency = currencies.filter((currencyData) => currencyData.symbol === currency);
 
+ // screen size for small devices
+ const mobile = 384;
+
  return (
   <>
-   <PStyle gridArea="1 / 1 / 2 / 3">
+   {/* name */}
+   <PStyle gridArea={window.innerWidth > mobile ? "1 / 1 / 2 / 3" : "1 / 1 / 2 / 4"}>
     <img
      className="star"
      src={
@@ -120,11 +124,14 @@ const CryptoDataComp = ({ data, watchList }) => {
       search: `?coinName=${data.id}`,
      }}
     >
-     <img src={watchList !== undefined ? data.image.large : data.image} alt="coin thumbnail" />
-     {data.name} {data.symbol.toUpperCase()}
+     {window.innerWidth > mobile && (
+      <img src={watchList !== undefined ? data.image.large : data.image} alt="coin thumbnail" />
+     )}
+     {data.name} {window.innerWidth > mobile && data.symbol.toUpperCase()}
     </Link>
    </PStyle>
-   <PStyle gridArea="1 / 3 / 2 / 4">
+   {/* price */}
+   <PStyle gridArea={window.innerWidth > mobile ? "1 / 3 / 2 / 4" : "1 / 5 / 2 / 4"}>
     <Link
      to={{
       pathname: "/currency",
@@ -135,30 +142,56 @@ const CryptoDataComp = ({ data, watchList }) => {
      {watchList !== undefined ? formatNums(data.market_data.current_price.usd) : formatNums(data.current_price)}
     </Link>
    </PStyle>
-   <PStyle gridArea="1 / 4 / 2 / 5" color={getSevenDayChange() < 0 ? "#FE2929" : "#10CE3A"}>
-    <Link
-     to={{
-      pathname: "/currency",
-      search: `?coinName=${data.id}`,
-     }}
+   {/* 7d % */}
+   {window.innerWidth > mobile && (
+    <PStyle gridArea="1 / 4 / 2 / 5" color={getSevenDayChange() < 0 ? "#FE2929" : "#10CE3A"}>
+     <Link
+      to={{
+       pathname: "/currency",
+       search: `?coinName=${data.id}`,
+      }}
+     >
+      {getSevenDayChange()}%
+     </Link>
+    </PStyle>
+   )}
+
+   {/* 24 h*/}
+   {window.innerWidth > mobile && (
+    <PStyle
+     gridArea="1 / 5 / 2 / 6"
+     color={
+      watchList !== undefined
+       ? data.market_data.market_cap_change_percentage_24h < 0
+         ? "#FE2929"
+         : "#10CE3A"
+       : data.price_change_percentage_24h < 0
+       ? "#FE2929"
+       : "#10CE3A"
+     }
     >
-     {getSevenDayChange()}%
-    </Link>
-   </PStyle>
-   <PStyle gridArea="1 / 5 / 2 / 6" color={data.price_change_percentage_24h < 0 ? "#FE2929" : "#10CE3A"}>
-    <Link
-     to={{
-      pathname: "/currency",
-      search: `?coinName=${data.id}`,
-     }}
-    >
-     {watchList !== undefined
-      ? Math.round(data.market_data.market_cap_change_percentage_24h * 100) / 100
-      : Math.round(data.price_change_percentage_24h * 100) / 100}
-     %
-    </Link>
-   </PStyle>
-   <p style={{ gridArea: "1 / 6 / 2 / 8" }}>
+     <Link
+      to={{
+       pathname: "/currency",
+       search: `?coinName=${data.id}`,
+      }}
+     >
+      {watchList !== undefined
+       ? Math.round(data.market_data.market_cap_change_percentage_24h * 100) / 100
+       : Math.round(data.price_change_percentage_24h * 100) / 100}
+      %
+     </Link>
+    </PStyle>
+   )}
+
+   {/* graph */}
+   <p
+    style={{
+     gridArea: window.innerWidth > mobile ? "1 / 6 / 2 / 8" : "1 / 5 / 2 / 8",
+     marginLeft: "10px",
+     width: "100%",
+    }}
+   >
     <Link
      to={{
       pathname: "/currency",

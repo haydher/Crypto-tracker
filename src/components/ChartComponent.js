@@ -47,7 +47,7 @@ const ChartComponent = ({ priceData, color }) => {
    },
   },
  };
- return <Line style={{ cursor: "pointer" }} data={data} options={options} height={80} />;
+ return <Line style={{ cursor: "pointer" }} data={data} options={options} height={80} width={100} />;
 };
 
 export default ChartComponent;

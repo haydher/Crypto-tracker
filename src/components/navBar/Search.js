@@ -40,7 +40,7 @@ const Search = () => {
   const url = `https://api.coingecko.com/api/v3/coins/list`;
 
   if (coinList.length > 1 || (localStorage.getItem("searchData") !== null && localStorage.getItem("searchData") > 0)) {
-   setCoinList(JSON.parse(localStorage.get("searchData")));
+   setCoinList(JSON.parse(localStorage.getItem("searchData")));
    return;
   }
 

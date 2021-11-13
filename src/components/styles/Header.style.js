@@ -33,6 +33,25 @@ export const HeaderStyle = styled.div`
  & .chartDates {
   display: flex;
  }
+
+ @media (max-width: 600px) {
+  display: block;
+
+  .name {
+   justify-content: flex-start;
+   font-size: 24px;
+   padding-top: 24px;
+
+   & img {
+    height: 24px;
+    margin-right: 10px;
+   }
+  }
+  .chartDates {
+   display: flex;
+   justify-content: space-between;
+  }
+ }
 `;
 
 export const Date = styled.p`
@@ -52,5 +71,9 @@ export const Date = styled.p`
   background-color: ${({ theme }) => theme.primaryColor};
   color: white;
   transition: color 0.3s ease, background-color 0.3s ease;
+ }
+ @media (max-width: 600px) {
+  margin-left: 0;
+  padding: 10px 16px;
  }
 `;

@@ -37,4 +37,11 @@ export const PaginateStyle = styled.div`
   border-radius: 4px;
   color: white;
  }
+
+ @media (max-width: 600px) {
+  font-size: 12px;
+  .page-item {
+   margin: 0;
+  }
+ }
 `;

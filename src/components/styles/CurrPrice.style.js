@@ -4,6 +4,10 @@ export const CoinDataContainer = styled.div`
  display: flex;
  margin-top: 64px;
  color: ${({ theme }) => theme.textColor};
+
+ @media (max-width: 600px) {
+  display: block;
+ }
 `;
 
 export const CurrPrice = styled.div`
@@ -29,6 +33,14 @@ export const CurrPrice = styled.div`
    color: ${({ theme }) => theme.background};
   }
  }
+
+ @media (max-width: 600px) {
+  width: auto;
+
+  .name {
+   margin-bottom: 12px;
+  }
+ }
 `;
 
 export const PriceChangeContainer = styled.div`
@@ -38,6 +50,11 @@ export const PriceChangeContainer = styled.div`
  grid-template-rows: repeat(2, 1fr);
  grid-column-gap: 0px;
  grid-row-gap: 55px;
+
+ @media (max-width: 600px) {
+  display: block;
+  width: auto;
+ }
 `;
 
 export const PriceChange = styled.div`
@@ -53,5 +70,13 @@ export const PriceChange = styled.div`
  & span {
   font-weight: 500;
   color: ${({ theme, rate }) => (rate === "positive" ? theme.green : theme.red)};
+ }
+
+ @media (max-width: 600px) {
+  margin: 32px 0;
+
+  h1 {
+   margin: 10px 0;
+  }
  }
 `;

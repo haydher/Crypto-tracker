@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+# Crypto Tracker
+
+Cryptocurrency tracking website. Data is fetched from third-party sources to show real-time price changes and to view historical prices for over 10k coins. Use of local storage with Redux to save the User's bookmarked coins.
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

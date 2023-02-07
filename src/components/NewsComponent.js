@@ -28,7 +28,7 @@ const NewsComponent = ({ currency }) => {
      return;
     }
    }
-   const url = `https://api.haydher.repl.co`;
+   const url = `https://news.haydher.repl.co/api/news`;
 
    // fetch new data if no news is saved in cookies
    try {

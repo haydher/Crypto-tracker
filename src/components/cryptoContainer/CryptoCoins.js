@@ -49,7 +49,7 @@ const CryptoCoins = ({ watchList }) => {
    }
   };
   fetchCoins();
-  const interval = setInterval(() => fetchCoins(), 10000);
+  const interval = setInterval(() => fetchCoins(), 300000); // 5 mins
   return () => clearInterval(interval);
   // update each time page or currency changes
  }, [pageNumber, currency, watchList]);
